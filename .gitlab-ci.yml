@@ -1,0 +1,23 @@
+stages:
+  - test
+  - build
+  - deploy
+
+staging:
+  stage: test
+  type: deploy
+  script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  - dpl --provider=heroku --app=star4time --api-key=$HEROKU_API_KEY
+  only:
+  - master
+  
+test:
+  stage: test
+  script: echo "Running tests"
+
+build:
+  stage: build
+  script: echo "Building the app"
