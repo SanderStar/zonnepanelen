@@ -2,6 +2,7 @@
      "host": "localhost",
      "port": "3000",
      "mongouri": "mongodb://localhost/solarpaneldb",
+     "scheduleinterval": "15m",
      "solarhost": "https://api.enphaseenergy.com/api/v2",
      "solarsystem": "/systems/1338274/summary",
      "solarkey": "key=97bd72a51ce15f497cef4eb553117b75",

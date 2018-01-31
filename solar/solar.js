@@ -1,6 +1,6 @@
 const request = require("request")
 const config = require("../config/config")
-const nconf = require("nconf");
+const nconf = require("nconf")
 const Q = require("q")
 
 var solar = {
@@ -27,12 +27,6 @@ var solar = {
 		url = host + system + "?" + key + "&" + userid
 		
 		request(url, function(error, result, body) {
-			if (error) {
-				console.log("error " + error) 
-			}
-			if (result) {
-				console.log("result " + JSON.stringify(result))
-			}
 			var data = JSON.parse(body)
 			console.log(data)
 		})

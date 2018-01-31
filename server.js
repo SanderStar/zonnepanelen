@@ -1,10 +1,7 @@
 const express = require("express")
 const routes = require("./routes/routes")
 const bodyParser = require("body-parser")
-
-const every = require("schedule").every
-
-const solar = require("./solar/solar")
+const schedule = require("./schedule/schedule")
 
 var app = express()
 
@@ -13,10 +10,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 app.use("/", routes)
 
-// Schedule data timer
-every("5s").do(function() {
-	solar.summary()
-});
+schedule.start()
 
 // Server listener
 const port = process.env.PORT || 3000
