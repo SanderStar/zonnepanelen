@@ -2,6 +2,7 @@ const request = require("request")
 const config = require("../config/config")
 const nconf = require("nconf")
 const Q = require("q")
+const cache = require("memory-cache");
 
 var solar = {
 		
@@ -28,6 +29,8 @@ var solar = {
 		
 		request(url, function(error, result, body) {
 			var data = JSON.parse(body)
+			var id = new Date().getTime()
+			cache.put(id, data)
 			console.log(data)
 		})
 	}
