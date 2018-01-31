@@ -1,14 +1,21 @@
-h1 Solar 
+doctype html
+html
+  head
+    title Solar
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", crossorigin="anonymous") 	
 
-table
-  tr
-    th= "Laatste rapport"
-    th= "Opbrengst op dit moment"
-    th= "Opbrengst vandaag"
-    th= "Status"
-  each item in items
-    tr
-      td= item.last_report_at
-      td= item.current_power
-      td= item.energy_today
-      td= item.status
+  body    
+    h1 Solar 
+
+    table(class="table table-striped")
+      tr
+        th= "Laatste rapport"
+        th= "Opbrengst op dit moment"
+        th= "Opbrengst vandaag"
+        th= "Status"
+      each item in items
+        tr
+          td= item.last_report_at
+          td= item.current_power
+          td= item.energy_today
+          td= item.status
