@@ -1,5 +1,9 @@
 {
      "host": "localhost",
      "port": "3000",
-     "mongouri": "mongodb://localhost/solarpaneldb"
+     "mongouri": "mongodb://localhost/solarpaneldb",
+     "solarhost": "https://api.enphaseenergy.com/api/v2",
+     "solarsystem": "/systems/67/summary",
+     "solarkey": "key=96a7de32fabc1dd8ff68ec43eca21c06",
+     "solaruserid": "user_id=4d7a45774e6a41320a"
 }

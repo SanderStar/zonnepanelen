@@ -1,13 +1,31 @@
 const request = require("request")
+const config = require("../config/config")
+const nconf = require("nconf");
+const Q = require("q")
 
-module.exports = {
+var solar = {
 		
 	summary: function() {
-		console.log("Getting solar panel data")
-		// TODO eigen specs
-		var url = "https://api.enphaseenergy.com/api/v2/systems/1338274/summary?key=97bd72a51ce15f497cef4eb553117b75&user_id=4d5455324d446b774f413d3d0a"
-		// TODO test specs
-		url = "https://api.enphaseenergy.com/api/v2/systems/67/summary?key=96a7de32fabc1dd8ff68ec43eca21c06&user_id=4d7a45774e6a41320a"
+		console.log("Solar summary")
+		var init = function() {
+			var deferred = Q.defer()
+			console.log("Solar init")
+			config.loadConfig()
+			return deferred.promise
+		}
+		
+		init().then(this.getdata())
+	},
+	
+	getdata: function() {
+		console.log("Solar getdata ")
+
+		var host = nconf.get("solarhost")
+		var key = nconf.get("solarkey")
+		var system = nconf.get("solarsystem")
+		var userid = nconf.get("solaruserid")
+		url = host + system + "?" + key + "&" + userid
+		
 		request(url, function(error, result, body) {
 			if (error) {
 				console.log("error " + error) 
@@ -18,6 +36,9 @@ module.exports = {
 			var data = JSON.parse(body)
 			console.log(data)
 		})
-	}	
-	
+	}
+
 }
+
+module.exports = solar 
+

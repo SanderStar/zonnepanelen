@@ -1,8 +1,17 @@
 const express = require("express")
 const path = require("path")
 const request = require("request")
+const config = require("../config/config")
 
 const router = express.Router()
+
+// Testing (environment)
+console.log("ENV " + process.env.NODE_ENV);
+config.loadConfig()
+	.then(function() {
+		console.log("Testing " + nconf.get("host") + nconf.get("port"));
+	});
+
 
 // Debuggen
 router.use(function(req, res, next) {

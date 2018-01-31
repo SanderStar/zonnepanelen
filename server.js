@@ -22,4 +22,4 @@ every("5s").do(function() {
 const port = process.env.PORT || 3000
 app.listen(port)
 
-console.log('Express-server gestart op http://localhost:' + port);
+console.log("Server gestart op http://localhost:" + port);
