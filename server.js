@@ -19,7 +19,7 @@ every("5s").do(function() {
 });
 
 // Server listener
-const port = process.env.port || 3000
+const port = process.env.PORT || 3000
 app.listen(port)
 
 console.log('Express-server gestart op http://localhost:' + port);
