@@ -2,6 +2,7 @@ const express = require("express")
 const path = require("path")
 const request = require("request")
 const config = require("../config/config")
+const solar = require("../solar/solar")
 
 const router = express.Router()
 
@@ -22,6 +23,14 @@ router.use(function(req, res, next) {
 // Show main page
 router.get("/", function(req, res) {
 	res.sendFile(path.resolve("public/index.html"))
+})
+
+// Show solar page
+router.get("/solar", function(req, res) {
+	console.log("Solar page")
+	var items = solar.getcache()
+	console.log(items)
+	res.render("solar", {items})
 })
 
 // TODO Setting timer / remove

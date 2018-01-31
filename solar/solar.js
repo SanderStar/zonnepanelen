@@ -19,7 +19,7 @@ var solar = {
 	},
 	
 	getdata: function() {
-		console.log("Solar getdata ")
+		console.log("Solar getdata")
 
 		var host = nconf.get("solarhost")
 		var key = nconf.get("solarkey")
@@ -29,10 +29,20 @@ var solar = {
 		
 		request(url, function(error, result, body) {
 			var data = JSON.parse(body)
-			var id = new Date().getTime()
+			var id = data.last_report_at
 			cache.put(id, data)
 			console.log(data)
 		})
+	},
+	
+	getcache: function() {
+		console.log("Solar getcache ")
+		var keys = cache.keys()
+		var data = []
+		keys.forEach(function(key) {
+			data.push(cache.get(key))
+		})
+		return data
 	}
 
 }

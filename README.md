@@ -13,5 +13,11 @@ Techniek
 --------
 nodejs
 rest
+heroku
+pug
+
+Toegang (webinterface)
+-----------------------
+https://zonnepanelen.herokuapp.com
 
 
