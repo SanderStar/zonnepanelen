@@ -1,0 +1,5 @@
+{
+     "host": "localhost",
+     "port": "3000",
+     "monguri": "mongodb://CloudFoundry_pqt3gk0k_cv7b85dq_rff1dt3r:pdb_xOBQkU4km2FeEcKcZAYJem8K3GMd@ds133388.mlab.com:33388/CloudFoundry_pqt3gk0k_cv7b85dq"
+}
