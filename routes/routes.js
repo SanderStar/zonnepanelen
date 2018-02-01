@@ -28,9 +28,10 @@ router.get("/", function(req, res) {
 // Show solar page
 router.get("/solar", function(req, res) {
 	console.log("Solar page")
-	var items = solar.getcache()
-	console.log(items)
-	res.render("solar", {items})
+	const getdata = solar.getcache()
+	getdata.then(function(items) {
+		res.render("solar", {items})
+	})
 })
 
 // TODO Setting timer / remove
