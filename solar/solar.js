@@ -4,6 +4,7 @@ const nconf = require("nconf")
 const Q = require("q")
 const cache = require("memory-cache");
 const database = require("../database/database")
+var moment = require("moment-timezone")
 
 var solar = {
 		
@@ -46,24 +47,29 @@ var solar = {
 		})
 	},
 	
-	getcache: function() {
+	getData: function() {
 		return Q.promise((resolve, reject) => {
 			console.log("Solar getcache ")
 
-			var keys = cache.keys()
 			var data = []
-			keys.forEach(function(key) {
-				console.log("manier 1 " + JSON.stringify(cache.get(key)))
-				data.push(cache.get(key))
-			})
-			
-			data = []
-			const init = database.init()
-			var print = (res) => { 				
-				res.forEach(function(item, index) {
+			var print = (res) => {
+				res.sort((a,b) => {
+					var a = new Date(a.last_report_at)
+					var b = new Date(b.last_report_at)
+					if (a > b) {
+						return -1
+					} else if (a < b) {
+						return 1
+					} else {
+						return 0
+					}
+				})
+				res.forEach((item, index) => {
 					if (index === 1) {
 						console.log("manier 2 " + JSON.stringify(item))
 					}
+					var lastReportAt = moment.tz(new Date(item.last_report_at), "Europe/Amsterdam").format()
+					item.last_report_at = lastReportAt
 					data.push(item)
 				})
 				resolve(data)
@@ -71,7 +77,7 @@ var solar = {
 
 			var log = () => { console.log("einde " + data.length) }
 
-			init.then(database.connect).then(database.getX).then(print).then(log)
+			database.init().then(database.connect).then(database.get).then(print).then(log)
 		})
 		
 	}

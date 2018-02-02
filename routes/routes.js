@@ -28,8 +28,7 @@ router.get("/", function(req, res) {
 // Show solar page
 router.get("/solar", function(req, res) {
 	console.log("Solar page")
-	const getdata = solar.getcache()
-	getdata.then(function(items) {
+	solar.getData().then(function(items) {
 		res.render("solar", {items})
 	})
 })
