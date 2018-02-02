@@ -8,20 +8,20 @@ var moment = require("moment-timezone")
 
 var solar = {
 		
+	init: function() {
+		var deferred = Q.defer()
+		console.log("Solar init")
+		config.loadConfig()
+		return deferred.promise
+	},
+
 	summary: function() {
 		console.log("Solar summary")
-		var init = function() {
-			var deferred = Q.defer()
-			console.log("Solar init")
-			config.loadConfig()
-			return deferred.promise
-		}
-		
-		init().then(this.getExternalData())
+		this.init().then(this.getExternalData())
 	},
 	
 	getExternalData: function() {
-		console.log("Solar getdata")
+		console.log("Solar get external data")
 
 		var host = nconf.get("solarhost")
 		var key = nconf.get("solarkey")
@@ -49,7 +49,7 @@ var solar = {
 	
 	getData: function() {
 		return Q.promise((resolve, reject) => {
-			console.log("Solar getcache ")
+			console.log("Solar get data")
 
 			var data = []
 			var print = (res) => {
@@ -65,16 +65,15 @@ var solar = {
 					}
 				})
 				res.forEach((item, index) => {
-					if (index === 1) {
-						console.log("manier 2 " + JSON.stringify(item))
-					}
+					// TODO extract timezone
 					var lastReportAt = moment.tz(new Date(item.last_report_at), "Europe/Amsterdam").format()
 					item.last_report_at = lastReportAt
 					data.push(item)
 				})
 				resolve(data)
 			}
-
+			
+			// TODO not needed
 			var log = () => { console.log("einde " + data.length) }
 
 			database.init().then(database.connect).then(database.get).then(print).then(log)
