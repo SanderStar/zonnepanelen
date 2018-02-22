@@ -36,7 +36,6 @@ var print = (data) => {
 	})
 }
 
-
 var log = () => { console.log("einde") }
 
 database.init().then(database.connect).then(database.get).then(print).then(log)
