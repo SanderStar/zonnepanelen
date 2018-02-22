@@ -4,6 +4,7 @@ const nconf = require("nconf")
 const Q = require("q")
 const cache = require("memory-cache");
 const database = require("../database/database")
+const message = require("../message/message")
 var moment = require("moment-timezone")
 
 var solar = {
@@ -39,7 +40,8 @@ var solar = {
 				if (!cache.get(id)) {
 					console.log("Solar new data")
 					cache.put(id, data)
-					database.add(data)
+					//TODO tijdelijk uit database.add(data)
+					message.send(JSON.stringify(data))
 				} else {
 					console.log("Solar data already cached")
 				}
