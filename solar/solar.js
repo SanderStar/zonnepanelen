@@ -41,7 +41,7 @@ var solar = {
 					console.log("Solar new data")
 					cache.put(id, data)
 					//TODO tijdelijk uit database.add(data)
-					message.send(JSON.stringify(data))
+					message.send(data)
 				} else {
 					console.log("Solar data already cached")
 				}
