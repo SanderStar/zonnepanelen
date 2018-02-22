@@ -1,6 +1,7 @@
 const every = require("schedule").every
 const config = require("../config/config")
 const solar = require("../solar/solar")
+const meter = require("../meter/meter")
 const nconf = require("nconf")
 const Q = require("q")
 
@@ -20,6 +21,7 @@ var schedule = {
 			// Schedule data timer
 			every(interval).do(function() {
 				solar.summary()
+				meter.init()
 			});
 		}
 		
