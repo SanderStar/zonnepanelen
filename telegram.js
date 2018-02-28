@@ -1,4 +1,6 @@
 const request = require("request")
+var moment = require("moment-timezone")
+
 
 // https://api.telegram.org/bot<token>/METHOD_NAME
 
@@ -14,6 +16,11 @@ var text = "Helloworld"
 var getMeURL = "https://api.telegram.org/bot517037607:AAEggnpbEmUU-2GVuxX3I3L9FVEAM5ZvA7Q/getMe"
 var sendMessageURL = "https://api.telegram.org/bot517037607:AAEggnpbEmUU-2GVuxX3I3L9FVEAM5ZvA7Q/sendMessage"
 var fullUrl = "https://api.telegram.org/bot" + token + "/" + method2 + "?" + "chat_id=" + chatId + "&text=" + text  
+
+var date = 1519400919
+var localDate = moment.tz(new Date(date), "Europe/Amsterdam").format()
+
+console.log(localDate)
 
 console.log(fullUrl)
 
