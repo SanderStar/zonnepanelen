@@ -2,10 +2,12 @@ var object = {"system_id":67,"modules":31,"size_w":7690,"current_power":0,"energ
 
 for (var prop in object) {
 	console.log(prop + "\t " + object[prop]);
+	
+	if (prop === "operational_at") {
+		var date = new Date(object[prop])
+		console.log(date)
+	}
+	//last_report_at  1519307289
+	//last_interval_end_at
 }
 
-console.log(object.system_id)
-console.log(object.modules)
-console.log(object.size_w)
-console.log(object.current_power)
-console.log(object.energy_today)
