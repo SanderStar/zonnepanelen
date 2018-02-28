@@ -5,47 +5,53 @@ const Q = require("q")
 const cache = require("memory-cache");
 const database = require("../database/database")
 const message = require("../message/message")
-var moment = require("moment-timezone")
+const moment = require("moment-timezone")
 
 var solar = {
 		
 	init: function() {
-		var deferred = Q.defer()
-		console.log("Solar init")
-		config.loadConfig()
-		return deferred.promise
+		return Q.promise((resolve, reject) => {
+			console.log("Solar init")
+			config.loadConfig()
+			resolve()
+		})
 	},
 
 	summary: function() {
 		console.log("Solar summary")
-		this.init().then(this.getExternalData())
+		return Q.promise((resolve, reject) => {
+			this.init().then(this.getExternalData)
+		})
 	},
 	
 	getExternalData: function() {
-		console.log("Solar get external data")
+		return Q.promise((resolve, reject) => {
+			console.log("Solar get external data")
 
-		var host = nconf.get("solarhost")
-		var key = nconf.get("solarkey")
-		var system = nconf.get("solarsystem")
-		var userid = nconf.get("solaruserid")
-		url = host + system + "?" + key + "&" + userid
-		
-		request(url, function(error, result, body) {
-			if (error) {
-				console.log(error)
-			} else {
-				// TODO sometimes error 'undefined' -> check parseble
-				var data = JSON.parse(body)
-				var id = data.last_report_at
-				if (!cache.get(id)) {
-					console.log("Solar new data")
-					cache.put(id, data)
-					//TODO tijdelijk uit database.add(data)
-					message.send(data)
+			var host = nconf.get("solarhost")
+			var key = nconf.get("solarkey")
+			var system = nconf.get("solarsystem")
+			var userid = nconf.get("solaruserid")
+			url = host + system + "?" + key + "&" + userid
+			
+			request(url, function(error, result, body) {
+				if (error) {
+					reject(new Error(error))
 				} else {
-					console.log("Solar data already cached")
+					// TODO sometimes error 'undefined' -> check parseble
+					var data = JSON.parse(body)
+					var id = data.last_report_at
+					if (!cache.get(id)) {
+						console.log("Solar new data")
+						cache.put(id, data)
+						//TODO tijdelijk uit database.add(data)
+						message.send(data)
+					} else {
+						console.log("Solar data already cached")
+					}
+					resolve()
 				}
-			}
+			})
 		})
 	},
 	
