@@ -1,7 +1,8 @@
 const request = require("request")
+const momenttz = require("moment-timezone")
 const moment = require("moment"),
         dateFormat = "DD-MM-YYYY",
-		dateTimeFormat = "DD-MM-YYYY hh:mm:ss"
+		dateTimeFormat = "DD-MM-YYYY HH:mm:ss"
 
 var message = {
 
@@ -21,12 +22,13 @@ var message = {
 			var propData
 			// TODO extract hardcode attribute names
 			if (prop === "operational_at" || prop === "last_report_at" || prop === "last_interval_end_at") {
-				//TODO propData = moment.tz(new Date(data[prop]), "Europe/Amsterdam").format()
-				var date = moment(new Date(data[prop]))
-				propData = date.format(dateTimeFormat);
+				var time = data[prop] * 1000
+				// TODO extract time zone
+				var date = momenttz.tz(new Date(time), "Europe/Amsterdam").format()
+				propData = moment(date).format(dateTimeFormat)
 			} else if (prop === "summary_date") {
-				var date = moment(new Date(data[prop]))
-				propData = date.format(dateFormat);
+				var time = moment(new Date(data[prop]))
+				propData = time.format(dateFormat);
 			} else {
 				propData = data[prop]
 			}
