@@ -2,10 +2,11 @@ const request = require("request")
 const config = require("../config/config")
 const nconf = require("nconf")
 const Q = require("q")
-const cache = require("memory-cache");
+const cache = require("memory-cache")
 const database = require("../database/database")
 const message = require("../message/message")
 const moment = require("moment-timezone")
+
 
 var solar = {
 		
@@ -20,7 +21,7 @@ var solar = {
 	summary: function() {
 		console.log("Solar summary")
 		return Q.promise((resolve, reject) => {
-			this.init().then(this.getExternalData)
+			this.init().then(this.getExternalData).then(this.processData)
 		})
 	},
 	
@@ -33,26 +34,34 @@ var solar = {
 			var system = nconf.get("solarsystem")
 			var userid = nconf.get("solaruserid")
 			url = host + system + "?" + key + "&" + userid
-			
-			request(url, function(error, result, body) {
+
+			request(url, (error, result, body) => {
 				if (error) {
 					reject(new Error(error))
 				} else {
-					// TODO sometimes error 'undefined' -> check parseble
-					var data = JSON.parse(body)
-					var id = data.last_report_at
-					if (!cache.get(id)) {
-						console.log("Solar new data")
-						cache.put(id, data)
-						//TODO tijdelijk uit database.add(data)
-						message.send(data)
-					} else {
-						console.log("Solar data already cached")
-					}
-					resolve()
+					resolve(body)
 				}
 			})
 		})
+	},
+	
+	processData: function(body) {
+		return Q.promise((resolve, reject) => {
+			console.log("Solar process data")
+			// TODO sometimes error 'undefined' -> check parseble
+			var data = JSON.parse(body)
+			var id = data.last_report_at
+			if (!cache.get(id)) {
+				console.log("Solar new data")
+				cache.put(id, data)
+				//TODO tijdelijk uit database.add(data)
+				message.send(data)
+			} else {
+				console.log("Solar data already cached")
+			}
+			resolve();
+		})
+		
 	},
 	
 	getData: function() {
