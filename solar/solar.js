@@ -19,8 +19,8 @@ var solar = {
 	},
 
 	summary: function() {
-		console.log("Solar summary")
 		return Q.promise((resolve, reject) => {
+			console.log("Solar summary")
 			this.init().then(this.getExternalData).then(this.processData)
 		})
 	},
