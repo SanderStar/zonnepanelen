@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === "production") {
 
 var config = {
 	loadConfig: function() {
-		console.log("Load configuration")
+		console.log("Config loadConfig")
 		var deferred = Q.defer()
 		nconf.load(deferred.makeNodeResolver())
 		return deferred.promise
