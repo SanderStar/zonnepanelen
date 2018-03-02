@@ -7,5 +7,9 @@
      "solarhost": "https://api.enphaseenergy.com/api/v2",
      "solarsystem": "/systems/67/summary",
      "solarkey": "key=96a7de32fabc1dd8ff68ec43eca21c06",
-     "solaruserid": "user_id=4d7a45774e6a41320a"
+     "solaruserid": "user_id=4d7a45774e6a41320a",
+     "messageurl": "https://api.telegram.org/bot",
+     "messagetoken": "517037607:AAEggnpbEmUU-2GVuxX3I3L9FVEAM5ZvA7Q",
+     "messagemethod": "sendMessage",
+     "messagechatid": "68110935"
 }

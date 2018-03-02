@@ -1,6 +1,7 @@
 const request = require("request")
 const Q = require("q")
 const config = require("../config/config")
+const nconf = require("nconf")
 const momenttz = require("moment-timezone")
 const moment = require("moment"),
         dateFormat = "DD-MM-YYYY",
@@ -50,26 +51,28 @@ var message = {
 	post: function(text) {
 		return Q.promise((resolve, reject) => {
 			console.log("Message post " + text)
-			var botname = "@zonnepanelen.bot"
-			var token = "517037607:AAEggnpbEmUU-2GVuxX3I3L9FVEAM5ZvA7Q"
-				
-			var method = "getMe" // user info
-			var method2 = "sendMessage" // versturen bericht
-			var method1 = "getUpdates" // achterhalen chatid
-			var chatId = "68110935"
+			
+			var token = nconf.get("messagetoken")
+			var method = nconf.get("messagemethod")
+			var chatId = nconf.get("messagechatid")
+			var url = nconf.get("messageurl")
 
-			var getMeURL = "https://api.telegram.org/bot517037607:AAEggnpbEmUU-2GVuxX3I3L9FVEAM5ZvA7Q/getMe"
-			var sendMessageURL = "https://api.telegram.org/bot517037607:AAEggnpbEmUU-2GVuxX3I3L9FVEAM5ZvA7Q/sendMessage"
-			var fullUrl = "https://api.telegram.org/bot" + token + "/" + method2 + "?" + "chat_id=" + chatId + "&text=" + text  
-
-			request(fullUrl, function(error, result, body) {
-				if (error) {
-					console.log(error)
-				} else {
-					var data = JSON.parse(body)
-					console.log(data)
-				}
-			})
+			var fullUrl = url + token + "/" + method + "?" + "chat_id=" + chatId + "&text=" + text  
+		
+			if (token && method && chatId && url) {
+				request(fullUrl, function(error, result, body) {
+					if (error) {
+						console.log(error)
+						reject(new Error(error))
+					} else {
+						var data = JSON.parse(body)
+						console.log(data)
+						resolve()
+					}
+				})
+			} else {
+				reject(new Error("Message configuration invalid"))
+			}
 		})
 	}
 
