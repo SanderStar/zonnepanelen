@@ -50,7 +50,7 @@ var message = {
 	
 	post: function(text) {
 		return Q.promise((resolve, reject) => {
-			console.log("Message post " + text)
+			console.log("Message post")
 			
 			var token = nconf.get("messagetoken")
 			var method = nconf.get("messagemethod")
@@ -66,7 +66,6 @@ var message = {
 						reject(new Error(error))
 					} else {
 						var data = JSON.parse(body)
-						console.log(data)
 						resolve()
 					}
 				})
