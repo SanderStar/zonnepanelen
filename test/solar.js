@@ -1,4 +1,4 @@
-const solar = require("./solar/solar")
+const solar = require("../solar/solar")
 const momenttz = require("moment-timezone")
 const moment = require("moment"),
         dateFormat = "DD-MM-YYYY",
